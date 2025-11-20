@@ -9,28 +9,32 @@ class Game:
         self.h = h
         self.screen = pygame.display.set_mode([w, h])
         self.clock = pygame.time.Clock()
+        self.group = pygame.sprite.LayeredUpdates()
         pygame.init()
         pygame.key.set_repeat(True)
 
-    def generateInvaders(self):
-        for row in range(1, 5):
-            for col in range(1, len(self.board) - 1):
-                self.board[row, col] = "O"
-
     def main(self):
         player = Player(
-            self.w / 2, self.h - 100, "./media/256px-square.png", "./media/bullet.png" 75, 50, self.screen
+            self.w / 2,
+            self.h - 100,
+            "./media/256px-square.png",
+            75,
+            50,
+            self.group,
+            1,
+            self.screen,
         )
-        player.draw()
         running = True
 
         # main event loop
         while running:
-            self.clock.tick(100)
+            pygame.display.flip()
             self.screen.fill([0, 0, 0])
+            self.clock.tick(100)
+            self.group.update()
+            self.group.draw(self.screen)
 
             for event in pygame.event.get():
-                # print("event: ", event)
                 if event.type == pygame.QUIT:
                     running = False
                     pygame.display.quit()
@@ -38,8 +42,6 @@ class Game:
                     sys.exit()
 
                 player.eventHandler(event)
-
-                pygame.display.flip()
 
 
 object = Game(500, 500)

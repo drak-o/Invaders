@@ -1,16 +1,36 @@
 import pygame
 
 
-class Entity:
-    def __init__(self, x, y, entity_img, bullet_img, w, h, score=0, health=1):
+class Entity(pygame.sprite.Sprite):
+    def __init__(self, x, y, entity_img, w, h, group, layer, score=None, health=None):
+
+        super().__init__()
+
+        # position and size
         self.x = x
         self.y = y
         self.w = w
         self.h = h
-        self.entity_img = pygame.image.load(entity_img)
-        self.entity_img = pygame.transform.scale(self.entity_img, (self.w, self.h))
-        self.bullet_img = pygame.image.load(bullet_img)
-        self.bullet_img = pygame.transform.scale(self.bullet_img, (32, 32))
+
+        # image
+        self.image = pygame.image.load(entity_img).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.w, self.h))
+
+        # collision
         self.rect = pygame.Rect(self.x, self.y, self.w, self.h)
+
+        # layer setup
+        self.group = group
+        group.add(self, layer=layer)
+
+        # misc states
         self.score = score
         self.health = health
+
+    def draw(self):
+        """
+        redraws the background and the img
+        """
+
+        # self.screen.fill([0, 0, 0])
+        self.screen.blit(self.image, (self.x, self.y))
