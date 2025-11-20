@@ -11,7 +11,6 @@ class Game:
         self.clock = pygame.time.Clock()
         self.group = pygame.sprite.LayeredUpdates()
         pygame.init()
-        pygame.key.set_repeat(True)
 
     def main(self):
         player = Player(
@@ -22,7 +21,6 @@ class Game:
             50,
             self.group,
             1,
-            self.screen,
         )
         running = True
 
@@ -31,17 +29,20 @@ class Game:
             pygame.display.flip()
             self.screen.fill([0, 0, 0])
             self.clock.tick(100)
-            self.group.update()
+
+            # run event handler for player
+            player.eventHandler()
+
+            self.group.update()  # run update functions of each class in group
             self.group.draw(self.screen)
 
+            # handle quit
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                     pygame.display.quit()
                     pygame.quit()
                     sys.exit()
-
-                player.eventHandler(event)
 
 
 object = Game(500, 500)

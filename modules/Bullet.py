@@ -3,9 +3,8 @@ import pygame
 
 
 class Bullet(Entity):
-    def __init__(self, *args, screen=None, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.screen = screen
         self.speed = 10
 
     def update(self):

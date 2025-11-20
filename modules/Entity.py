@@ -26,11 +26,3 @@ class Entity(pygame.sprite.Sprite):
         # misc states
         self.score = score
         self.health = health
-
-    def draw(self):
-        """
-        redraws the background and the img
-        """
-
-        # self.screen.fill([0, 0, 0])
-        self.screen.blit(self.image, (self.x, self.y))
