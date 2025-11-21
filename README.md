@@ -1,18 +1,21 @@
 # Invaders
 Space Invaders written in Python, as part of the Introduction to Programming module.
 
+# Prerequisites
+Having Python Installed
+
 # Set Up Instructions
-create a virtual environmnet:
+Create a virtual environment:
 ```Bash
 python -m venv .venv
 ```
 
-activate the virtual environmnet:
+Activate the virtual environment:
 ```Bash
 ./.venv/Scripts/activate
 ```
 
-install required packages:
+Install required packages:
 ```Bash
 pip install -r requirements.txt
 ```
