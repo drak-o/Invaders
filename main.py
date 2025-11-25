@@ -7,9 +7,13 @@ class Game:
     def __init__(self, w, h):
         self.w = w
         self.h = h
+        # Initialize a window or screen for display
         self.screen = pygame.display.set_mode([w, h])
+        # Initialize a Clock
         self.clock = pygame.time.Clock()
+        # add a sprite or sequence of sprites to a group
         self.group = pygame.sprite.LayeredUpdates()
+        # initialize all pygame modules
         pygame.init()
 
     def main(self):
@@ -26,7 +30,7 @@ class Game:
 
         # main event loop
         while running:
-            pygame.display.flip()
+            pygame.display.flip()  # Update the full display Surface to the screen
             self.screen.fill([0, 0, 0])
             self.clock.tick(100)
 
