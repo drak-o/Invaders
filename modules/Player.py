@@ -4,6 +4,24 @@ from modules.Entity import Entity
 
 
 class Player(Entity):
+    """
+    A game entity that extends `Entity`.
+
+    Inherits position, size, image loading, collision rect,
+    and group/layer handling. Adds basic movement and shooting state.
+
+    Args:
+        x (int): X position.
+        y (int): Y position.
+        entity_img (str): Path to the image.
+        w (int): Width.
+        h (int): Height.
+        group: Sprite group to add this entity to.
+        layer (int): Render layer.
+        score (int, optional): Score value.
+        health (int, optional): Health value.
+    """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.velocity_x = 0
