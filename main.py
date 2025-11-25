@@ -1,7 +1,7 @@
 import pygame
 import sys
 from modules.Player import Player
-
+from modules.Barrier import Barrier
 
 class Game:
     def __init__(self, w, h):
@@ -26,6 +26,14 @@ class Game:
             self.group,
             1,
         )
+
+        barrier = Barrier(
+            self.w / 2,
+            self.h - 200,
+            "media\256px-square.png"
+            
+        )
+         
         running = True
 
         # main event loop
