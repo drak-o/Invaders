@@ -27,18 +27,21 @@ class Player(Entity):
         self.velocity_x = 0
         self.shoot_cooldown = 300
         self.last_shot = 0
-        self.BulletGroup = pygame.sprite.LayeredUpdates()
+        self.bullets = []
+
+
     def shoot(self):
         """generate a bullet"""
-        Bullet(
+        bullet = Bullet(
             self.x + self.w / 2 - 16,
             self.y - self.h / 2,
             "./media/bullet.png",
             32,
             64,
-            self.BulletGroup,
+            self.group,
             10,
         )
+        self.bullets.append(bullet)
 
     def update(self):
         """moves player on the x axis
