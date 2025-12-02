@@ -27,16 +27,16 @@ class Player(Entity):
         self.velocity_x = 0
         self.shoot_cooldown = 300
         self.last_shot = 0
-
+        self.BulletGroup = pygame.sprite.LayeredUpdates()
     def shoot(self):
         """generate a bullet"""
-        bullet = Bullet(
+        Bullet(
             self.x + self.w / 2 - 16,
             self.y - self.h / 2,
             "./media/bullet.png",
             32,
             64,
-            self.group,
+            self.BulletGroup,
             10,
         )
 

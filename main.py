@@ -15,7 +15,10 @@ class Game:
         self.group = pygame.sprite.LayeredUpdates()
         # initialize all pygame modules
         pygame.init()
+        self.BarrierGroup = pygame.sprite.LayeredUpdates()
 
+
+    
     def main(self):
         player = Player(
             self.w / 2,
@@ -27,11 +30,16 @@ class Game:
             1,
         )
 
-        barrier = Barrier(
+        Barrier(
             self.w / 2,
             self.h - 200,
-            "media\256px-square.png"
-            
+            "./media/256px-square.png",
+            75,
+            50,
+            self.BarrierGroup,
+            1,
+            None,
+            3,
         )
          
         running = True
@@ -48,6 +56,7 @@ class Game:
             self.group.update()  # run update functions of each class in group
             self.group.draw(self.screen)
 
+            pygame.sprite.groupcollide(player.BulletGroup, self.BarrierGroup, True, False) #to be finished add function here
             # handle quit
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

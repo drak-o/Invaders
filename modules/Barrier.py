@@ -20,5 +20,13 @@ class Barrier(Entity):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+       
+        
+    def Barriercollision(self): 
+        self.health -= 1 
+        self.image = pygame.image.load(f"./media/Barrier{self.health}.png").convert_alpha()
+        
+
+
 
 
