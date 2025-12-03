@@ -29,10 +29,10 @@ class Player(Entity):
         self.last_shot = 0
         self.bullets = []
 
-
     def shoot(self):
         """generate a bullet"""
         bullet = Bullet(
+            10,
             self.x + self.w / 2 - 16,
             self.y - self.h / 2,
             "./media/bullet.png",

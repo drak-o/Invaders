@@ -1,26 +1,49 @@
+import pygame
 from modules.Entity import Entity
+from modules.Bullet import Bullet
 
 
-class Invader(Entity):
-    def __init__(self, x, y, img, w, h, score=0, health=1):
-        super().__init__(x, y, img, w, h, score, health)
+class Octopus(Entity):
+    """
+    A Class for the Octopus Invader which extends Entity.
 
-    def generateInvaders(self):
-        for row in range(1, 5):
-            for col in range(1, len(self.board) - 1):
-                self.board[row, col] = "O"
+    Inherits position, size, image loading, collision rect,
+    and group/layer handling. Adds group, layer, score, health.
 
+    Args:
+        x (int): X position.
+        y (int): Y position.
+        entity_img (str): Path to the image.
+        w (int): Width.
+        h (int): Height.
+        group: Sprite group to add this entity to.
+        layer (int): Render layer.
+        score (int, optional): Score value.
+        health (int, optional): Health value.
+    """
 
-class Squid(Invader):
-    def __init__(self, x, y, img, l, h):
-        super().__init__(x, y, img, l, h, 30)  # 30 points for Squid
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.shoot_cooldown = 1000
+        self.last_shot = 0
+        self.bullets = []
 
+    def shoot(self):
+        # generate a bullet
+        bullet = Bullet(
+            -10,
+            self.x + self.w / 2 - 16,
+            self.y + self.h / 2 + 16,
+            "./media/bullet.png",
+            32,
+            64,
+            self.group,
+            10,
+        )
+        self.bullets.append(bullet)
 
-class Crab(Invader):
-    def __init__(self, x, y, img, l, h):
-        super().__init__(x, y, img, l, h, 20)  # 20 points for Crab
-
-
-class Octopus(Invader):
-    def __init__(self, x, y, img, l, h):
-        super().__init__(x, y, img, l, h, 10)  # 10 points for Octopus
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_shot >= self.shoot_cooldown:
+            self.shoot()
+            self.last_shot = now

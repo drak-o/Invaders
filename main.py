@@ -2,6 +2,8 @@ import pygame
 import sys
 from modules.Player import Player
 from modules.Barrier import Barrier
+from modules.Invaders import Octopus
+
 
 class Game:
     def __init__(self, w, h):
@@ -16,11 +18,11 @@ class Game:
         # initialize all pygame modules
         pygame.init()
         self.barriers = []
+        self.invaders = []
 
-    
     def main(self):
         player = Player(
-            self.w / 2,
+            self.w / 2 - 37.5,
             self.h - 100,
             "./media/256px-square.png",
             75,
@@ -29,10 +31,10 @@ class Game:
             1,
         )
 
+        # create 4 barriers and append them to the barriers list
         for i in range(4):
-                
             barrier = Barrier(
-                75 + (i*100),
+                75 + (i * 100),
                 self.h - 200,
                 "./media/Barrier3.png",
                 50,
@@ -43,6 +45,20 @@ class Game:
                 3,
             )
             self.barriers.append(barrier)
+
+        octopus = Octopus(
+            self.w / 2 - 50,
+            self.h / 2 - 100,
+            "./media/Barrier3.png",
+            100,
+            100,
+            self.group,
+            1,
+            None,
+            1,
+        )
+        self.invaders.append(octopus)
+
         running = True
 
         # main event loop
@@ -56,25 +72,45 @@ class Game:
 
             self.group.update()  # run update functions of each class in group
             self.group.draw(self.screen)
-            
-            for bullet in player.bullets:
-                for barrier in self.barriers:
 
+            # loop which detects collision of bullets with various entities
+            for bullet in player.bullets:
+
+                # handle bullet collision with barriers
+                for barrier in self.barriers:
                     if bullet.rect.colliderect(barrier.rect):
                         print("bullet hit barrier:", barrier)
 
-                        #remove bullets
+                        # remove bullets
                         player.bullets.remove(bullet)
                         bullet.kill()
 
-                        #apply damage
+                        # apply damage
                         barrier.health -= 1
 
-                        #remove barrier if dead
+                        # remove barrier if dead
                         if barrier.health <= 0:
                             self.barriers.remove(barrier)
                             barrier.kill()
-                        break     
+                        break
+
+                # handle bullet collision with invaders
+                for invader in self.invaders:
+                    if bullet.rect.colliderect(invader.rect):
+                        print("bullet hit invader:", invader)
+
+                        # remove bullets
+                        player.bullets.remove(bullet)
+                        bullet.kill()
+
+                        # apply damage
+                        invader.health -= 1
+
+                        # remove invader if dead
+                        if invader.health <= 0:
+                            self.invaders.remove(invader)
+                            invader.kill()
+                        break
 
             # handle quit
             for event in pygame.event.get():

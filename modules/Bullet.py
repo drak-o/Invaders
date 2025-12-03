@@ -11,6 +11,7 @@ class Bullet(Entity):
     automatic removal when leaving the screen.
 
     Args:
+        speed (int): the speed of the bullet.
         x (int): X position.
         y (int): Y position.
         entity_img (str): Path to the bullet image.
@@ -22,9 +23,9 @@ class Bullet(Entity):
         health (int, optional): Unused for bullets.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, speed, *args, **kwargs):
+        self.speed = speed
         super().__init__(*args, **kwargs)
-        self.speed = 10
 
     def update(self):
         self.y -= self.speed
