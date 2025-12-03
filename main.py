@@ -29,18 +29,20 @@ class Game:
             1,
         )
 
-        barrier = Barrier(
-            self.w / 2,
-            self.h - 200,
-            "./media/256px-square.png",
-            75,
-            50,
-            self.group,
-            1,
-            None,
-            3,
-        )
-        self.barriers.append(barrier)
+        for i in range(4):
+                
+            barrier = Barrier(
+                75 + (i*100),
+                self.h - 200,
+                "./media/Barrier3.png",
+                50,
+                50,
+                self.group,
+                1,
+                None,
+                3,
+            )
+            self.barriers.append(barrier)
         running = True
 
         # main event loop

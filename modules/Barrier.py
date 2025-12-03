@@ -23,8 +23,9 @@ class Barrier(Entity):
        
         
     def update(self): 
-        self.health -= 1 
         self.image = pygame.image.load(f"./media/Barrier{self.health}.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.w, self.h))
+
         
         
 
