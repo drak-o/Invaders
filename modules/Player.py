@@ -55,7 +55,12 @@ class Player(Entity):
         self.rect.x = self.x
 
     def eventHandler(self):
-        """This is the main event handler for the player class"""
+        """This is the main event handler for the player class
+        naming convention might be wrong
+        return if dead?
+        """
+        if self.health <= 0:
+            return
 
         keys = pygame.key.get_pressed()
 
