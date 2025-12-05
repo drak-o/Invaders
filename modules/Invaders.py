@@ -3,9 +3,9 @@ from modules.Entity import Entity
 from modules.Bullet import Bullet
 
 
-class Octopus(Entity):
+class Invader(Entity):
     """
-    A Class for the Octopus Invader which extends Entity.
+    A Class for the Invader which extends Entity.
 
     Inherits position, size, image loading, collision rect,
     and group/layer handling. Adds group, layer, score, health.

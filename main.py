@@ -2,7 +2,7 @@ import pygame
 import sys
 from modules.Player import Player
 from modules.Barrier import Barrier
-from modules.Invaders import Octopus
+from modules.Invaders import Invader
 from events.Events import MainEvents
 
 # initialize all pygame modules
@@ -25,7 +25,7 @@ class Game:
             self.w / 2 - 37.5,
             self.h - 100,
             "./media/256px-square.png",
-            75,
+            100,
             50,
             self.group,
             1,
@@ -54,7 +54,7 @@ class Game:
             self.barriers.append(barrier)
 
         # create one invader and apped it to invaders list
-        invader = Octopus(
+        invader = Invader(
             self.w / 2 - 50,
             self.h / 2 - 100,
             "./media/Barrier3.png",
@@ -63,7 +63,7 @@ class Game:
             self.group,
             1,
             None,
-            1,
+            25,
         )
         self.invaders.append(invader)
 
@@ -76,6 +76,9 @@ class Game:
             self.screen,
         )
 
+        # render an inital piece of text
+        font = pygame.font.Font(None, 36)
+
         # main event loop
         while True:
             # run handle_events() which calls all functions linked with event listening
@@ -87,6 +90,40 @@ class Game:
 
             self.screen.fill([0, 0, 0])
             self.group.draw(self.screen)
+
+            # draw the player health
+            player_health_txt = font.render(
+                "health: " + str(self.player.health), True, (255, 255, 255)
+            )
+            self.screen.blit(player_health_txt, (10, self.h - 36))
+
+            # draw the health of invader
+            if self.invaders:
+                invader_health = self.invaders[0].health
+            else:
+                invader_health = 0
+
+            invader_health_txt = font.render(
+                "invader health: " + str(invader_health), True, (255, 255, 255)
+            )
+            invader_text_width = invader_health_txt.get_size()[0]
+
+            self.screen.blit(
+                invader_health_txt,
+                (self.w - invader_text_width - 10, 18),
+            )
+
+            game_over_text = font.render("Game Over :(", True, (255, 255, 255))
+            game_over_text_width = game_over_text.get_size()[0]
+            game_over_text_height = game_over_text.get_size()[1]
+
+            self.screen.blit(
+                game_over_text,
+                (
+                    self.w / 2 - game_over_text_width / 2,
+                    self.h / 2 - game_over_text_height / 2,
+                ),
+            )
 
             # Update the full display Surface to the screen
             pygame.display.flip()
