@@ -5,6 +5,7 @@ from modules.Barrier import Barrier
 from modules.Invaders import Octopus
 from events.Events import MainEvents
 
+# initialize all pygame modules
 pygame.init()
 
 
@@ -18,6 +19,8 @@ class Game:
         self.clock = pygame.time.Clock()
         # add a sprite or sequence of sprites to a group
         self.group = pygame.sprite.LayeredUpdates()
+
+        # the main instance of the player class
         self.player = Player(
             self.w / 2 - 37.5,
             self.h - 100,
@@ -29,6 +32,8 @@ class Game:
             None,
             3,
         )
+
+        # arrays to store entity types
         self.barriers = []
         self.invaders = []
 
@@ -62,39 +67,36 @@ class Game:
         )
         self.invaders.append(invader)
 
-        main_events = MainEvents(self.player, self.barriers, self.invaders)
-
-        running = True
+        # create an instance of MainEvents
+        # so that we can call handle_events()
+        main_events = MainEvents(
+            self.player,
+            self.barriers,
+            self.invaders,
+            self.screen,
+        )
 
         # main event loop
-        while running:
-            pygame.display.flip()  # Update the full display Surface to the screen
+        while True:
+            # run handle_events() which calls all functions linked with event listening
+            if not main_events.handle_events():
+                break
+
+            # run update functions of each class in group
+            self.group.update()
+
             self.screen.fill([0, 0, 0])
-            self.clock.tick(100)
-
-            # run events
-            main_events.handle_events()
-
-            self.group.update()  # run update functions of each class in group
             self.group.draw(self.screen)
 
-            # if the player dies you want to draw black and quit
-            if self.player.health <= 0:
-                self.screen.fill([0, 0, 0])
-                pygame.display.flip()  # update the whole screen
-                pygame.time.wait(1000)
-                running = False
-                pygame.display.quit()
-                pygame.quit()
-                sys.exit()
+            # Update the full display Surface to the screen
+            pygame.display.flip()
 
-            # handle quit
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                    pygame.display.quit()
-                    pygame.quit()
-                    sys.exit()
+            self.clock.tick(100)
+
+        # cleanup
+        pygame.display.quit()
+        pygame.quit()
+        sys.exit()
 
 
 game = Game(500, 500)

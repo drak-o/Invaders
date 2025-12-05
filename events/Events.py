@@ -2,29 +2,56 @@ import pygame
 
 
 class MainEvents:
-    def __init__(self, player, barriers, invaders):
+    """
+    This class handles all misc events, collision events, and input events.
+
+    Args:
+        player (Player): The main instance of Player.
+        barriers (list[Barrier]): A List of Barrier objects.
+        invaders (list[Invader]): A List of Invader objects.
+        screen (pygame.Surface): The main display surface.
+    """
+
+    def __init__(self, player, barriers, invaders, screen):
         self.player = player
         self.barriers = barriers
         self.invaders = invaders
+        self.screen = screen
 
     def handle_events(self):
-        """master function that calls all of the functions,
-        created because I had to call too many functions as part of main.py
         """
+        Function that centralizes all handlers, for simplicity in main
+        """
+        # if the player dies you want to draw black and quit
+        if self.player.health <= 0:
+            self.screen.fill([0, 0, 0])
+            pygame.display.flip()  # update the whole screen
+            pygame.time.wait(1000)
+            return False
+
+        # handle quit
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+
         self.player_key_handler()
         self.barrier_collision_listener()
         self.invader_collision_listener()
         self.player_invader_collision_listener()
 
+        return True
+
     """
         Event Handlers
     """
 
-    def player_key_handler(
-        self,
-    ):
+    def player_key_handler(self):
         # function is too small so decided to merge handler and listener
         player = self.player
+
+        # do nothing if player is dead or hidden to fix issue
+        if player.health <= 0 or player.hidden_until > 0:
+            return
 
         keys = pygame.key.get_pressed()
 
@@ -87,6 +114,9 @@ class MainEvents:
         if player.health <= 0:
             player.kill()
 
+        # respawn animation
+        player.hide()
+
     """
         Event Listeners
     """
@@ -115,13 +145,14 @@ class MainEvents:
                     self.invader_collision_handler(bullet, invader, invaders, bullets)
                     break
 
-    # this would be rewritten if there would be more invaders implemented
+    # this was rewritten to fix indexing error
     def player_invader_collision_listener(self):
-        bullets = self.invaders[0].bullets  # get the first invader
         player = self.player
 
-        # loop which detects collision of Invader bullets with the player
-        for bullet in bullets:
-            if bullet.rect.colliderect(player.rect):
-                self.player_collision_handler(bullet, player, bullets)
-                break
+        # nested loop which detects collision of invader bullets with the player
+        for invader in self.invaders:
+            bullets = invader.bullets
+            for bullet in bullets:
+                if bullet.rect.colliderect(player.rect):
+                    self.player_collision_handler(bullet, player, bullets)
+                    break

@@ -72,3 +72,9 @@ foreach ($f in Get-ChildItem *.png) {
     magick $f.FullName -strip $f.FullName
 }
 ```
+
+# Invader bullet collision with barrier
+I forgot about this, must tell Samipa. 
+
+# must make tests
+automated testing must be implemented
