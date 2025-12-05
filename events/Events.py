@@ -2,16 +2,29 @@ import pygame
 
 
 class MainEvents:
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, player, barriers, invaders):
+        self.player = player
+        self.barriers = barriers
+        self.invaders = invaders
+
+    def handle_events(self):
+        """master function that calls all of the functions,
+        created because I had to call too many functions as part of main.py
+        """
+        self.player_key_handler()
+        self.barrier_collision_listener()
+        self.invader_collision_listener()
+        self.player_invader_collision_listener()
 
     """
         Event Handlers
     """
 
-    def player_key_handler(self):
+    def player_key_handler(
+        self,
+    ):
         # function is too small so decided to merge handler and listener
-        player = self.game.player
+        player = self.player
 
         keys = pygame.key.get_pressed()
 
@@ -61,7 +74,7 @@ class MainEvents:
             invader.kill()
 
     def player_collision_handler(self, bullet, player, bullets):
-        print("bullet hit player:", self.game.player)
+        print("bullet hit player:", player)
 
         # remove bullets
         bullets.remove(bullet)
@@ -80,8 +93,8 @@ class MainEvents:
 
     def barrier_collision_listener(self):
 
-        bullets = self.game.player.bullets
-        barriers = self.game.barriers
+        bullets = self.player.bullets
+        barriers = self.barriers
 
         for bullet in bullets:
             # listen for barrier collision and handle it
@@ -92,8 +105,8 @@ class MainEvents:
 
     def invader_collision_listener(self):
 
-        bullets = self.game.player.bullets
-        invaders = self.game.invaders
+        bullets = self.player.bullets
+        invaders = self.invaders
 
         for bullet in bullets:
             # listen for invader collision and handle it
@@ -102,9 +115,10 @@ class MainEvents:
                     self.invader_collision_handler(bullet, invader, invaders, bullets)
                     break
 
-    def player_invader_collision_listener(self, invader):
-        bullets = invader.bullets
-        player = self.game.player
+    # this would be rewritten if there would be more invaders implemented
+    def player_invader_collision_listener(self):
+        bullets = self.invaders[0].bullets  # get the first invader
+        player = self.player
 
         # loop which detects collision of Invader bullets with the player
         for bullet in bullets:

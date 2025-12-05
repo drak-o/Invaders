@@ -62,7 +62,7 @@ class Game:
         )
         self.invaders.append(invader)
 
-        main_events = MainEvents(self)
+        main_events = MainEvents(self.player, self.barriers, self.invaders)
 
         running = True
 
@@ -72,18 +72,21 @@ class Game:
             self.screen.fill([0, 0, 0])
             self.clock.tick(100)
 
-            # run event handler for player
-            main_events.player_key_handler()
-            main_events.barrier_collision_listener()
-            main_events.invader_collision_listener()
-            main_events.player_invader_collision_listener(invader)
+            # run events
+            main_events.handle_events()
 
             self.group.update()  # run update functions of each class in group
             self.group.draw(self.screen)
 
-            # if the player dies you want to draw black
+            # if the player dies you want to draw black and quit
             if self.player.health <= 0:
+                self.screen.fill([0, 0, 0])
+                pygame.display.flip()  # update the whole screen
+                pygame.time.wait(1000)
                 running = False
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
 
             # handle quit
             for event in pygame.event.get():
