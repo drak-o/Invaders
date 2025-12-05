@@ -56,3 +56,19 @@ Run main.py:
 ```Bash
 python.exe main.py
 ```
+
+# Image addition to media
+
+To fix the warning (which was causing performance issues):
+```bash
+libpng warning: iCCP: known incorrect sRGB profile
+```
+
+Install [magick](https://imagemagick.org/script/download.php#windows)
+
+run the following command inside the media folder:
+```bash
+foreach ($f in Get-ChildItem *.png) {
+    magick $f.FullName -strip $f.FullName
+}
+```

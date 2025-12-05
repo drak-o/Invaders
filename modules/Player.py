@@ -53,28 +53,3 @@ class Player(Entity):
             self.x = newX
 
         self.rect.x = self.x
-
-    def eventHandler(self):
-        """This is the main event handler for the player class
-        naming convention might be wrong
-        return if dead?
-        """
-        if self.health <= 0:
-            return
-
-        keys = pygame.key.get_pressed()
-
-        # movement
-        if keys[pygame.K_LEFT]:
-            self.velocity_x = -5
-        elif keys[pygame.K_RIGHT]:
-            self.velocity_x = 5
-        else:
-            self.velocity_x = 0
-
-        # continuous shooting
-        if keys[pygame.K_SPACE]:
-            now = pygame.time.get_ticks()
-            if now - self.last_shot >= self.shoot_cooldown:
-                self.shoot()
-                self.last_shot = now
