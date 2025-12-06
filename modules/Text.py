@@ -74,3 +74,6 @@ class Text:
                 self.screen_h / 2 - surface_text_height / 2,
             ),
         )
+
+        pygame.display.flip()  # update the whole screen
+        pygame.time.wait(2000)

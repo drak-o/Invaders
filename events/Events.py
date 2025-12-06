@@ -24,17 +24,14 @@ class MainEvents:
         """
         Function that centralizes all handlers, for simplicity in main
         """
-        # if the player dies you want to run gameover screen and quit
+        # if the player dies draw Game Over and quit
         if self.player.health <= 0:
             self.text.draw_centered_text("Game Over :(")
-            pygame.display.flip()  # update the whole screen
-            pygame.time.wait(2000)
             return False
 
-        if not self.invaders:
+        # else if the invaders are dead draw you won and quit
+        elif not self.invaders:
             self.text.draw_centered_text("You Won! :)")
-            pygame.display.flip()  # update the whole screen
-            pygame.time.wait(2000)
             return False
 
         # handle quit
