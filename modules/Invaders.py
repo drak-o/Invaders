@@ -24,19 +24,19 @@ class Invader(Entity):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.shoot_cooldown = 1000
+        self.shoot_cooldown = 2000
         self.last_shot = 0
         self.bullets = []
 
     def shoot(self):
         # generate a bullet
         bullet = Bullet(
-            -10,
-            self.x + self.w / 2 - 16,
-            self.y + self.h / 2 + 16,
+            -2.5,
+            self.x + self.w / 2 - 24,
+            self.y + self.h / 2 + 24,
             "./media/Bubble.png",
-            32,
-            32,
+            48,
+            48,
             self.group,
             10,
         )
