@@ -34,9 +34,9 @@ class Invader(Entity):
             -10,
             self.x + self.w / 2 - 16,
             self.y + self.h / 2 + 16,
-            "./media/bullet.png",
+            "./media/Bubble.png",
             32,
-            64,
+            32,
             self.group,
             10,
         )

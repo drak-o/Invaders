@@ -38,7 +38,7 @@ class Player(Entity):
             10,
             self.x + self.w / 2 - 16,
             self.y - self.h / 2,
-            "./media/bullet.png",
+            "./media/Anchor.png",
             32,
             64,
             self.group,

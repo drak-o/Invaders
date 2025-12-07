@@ -11,7 +11,7 @@ pygame.init()
 
 
 class Game:
-    def __init__(self, w, h):
+    def __init__(self, w, h, bg_image):
         self.w = w
         self.h = h
         # Initialize a window or screen for display
@@ -21,13 +21,18 @@ class Game:
         # add a sprite or sequence of sprites to a group
         self.group = pygame.sprite.LayeredUpdates()
 
+        self.bg_img = pygame.image.load(bg_image)
+        self.bg_img = pygame.transform.scale(
+            self.bg_img, (self.w, self.h)
+        )  # scale to fit screen
+
         # the main instance of the player class
         self.player = Player(
             self.w / 2 - 37.5,
             self.h - 100,
-            "./media/256px-square.png",
+            "./media/Boat.png",
+            150,
             100,
-            50,
             self.group,
             1,
             None,
@@ -42,11 +47,11 @@ class Game:
         # create 4 barriers and append them to the barriers list
         for i in range(4):
             barrier = Barrier(
-                75 + (i * 100),
+                25 + i * (75 + 50),  # start_x + i * (width + gap)
                 self.h - 200,
                 "./media/Barrier3.png",
-                50,
-                50,
+                75,
+                75,
                 self.group,
                 1,
                 None,
@@ -56,11 +61,11 @@ class Game:
 
         # create one invader and apped it to invaders list
         invader = Invader(
-            self.w / 2 - 50,
-            self.h / 2 - 100,
+            self.w / 2 - 96,
+            self.h / 2 - 192,
             "./media/Barrier3.png",
-            100,
-            100,
+            192,
+            192,
             self.group,
             1,
             None,
@@ -89,7 +94,7 @@ class Game:
             # run update functions of each class in group
             self.group.update()
 
-            self.screen.fill([0, 0, 0])
+            self.screen.blit(self.bg_img, (0, 0))
             self.group.draw(self.screen)
 
             text.draw_text()
@@ -104,5 +109,5 @@ class Game:
         sys.exit()
 
 
-game = Game(500, 500)
+game = Game(500, 500, "./media/Background.jpg")
 game.main()
