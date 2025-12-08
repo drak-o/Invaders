@@ -40,6 +40,7 @@ class MainEvents:
                 return False
 
         self.player_key_handler()
+        self.bullet_offscreen_listener()
         self.barrier_collision_listener()
         self.invader_collision_listener()
         self.player_invader_collision_listener()
@@ -75,41 +76,49 @@ class MainEvents:
                 player.shoot()
                 player.last_shot = now
 
-    def barrier_collision_handler(self, bullet, barrier, barriers, bullets):
+    def barrier_collision_handler(self, bullet, barrier):
         print("bullet hit barrier:", barrier)
 
-        # remove bullet
-        bullets.remove(bullet)
+        # remove bullet from correct list
+        if bullet.owner == "Player":
+            self.player.bullets.remove(bullet)
+        elif bullet.owner == "Invader" and self.invaders:
+            self.invaders[0].bullets.remove(bullet)
+
+        # remove from screen
         bullet.kill()
 
         # apply damage
         barrier.health -= 1
 
         # remove barrier if dead
-        if barrier.health <= 0 and barrier in barriers:
-            barriers.remove(barrier)
+        if barrier.health <= 0 and barrier in self.barriers:
+            self.barriers.remove(barrier)
             barrier.kill()
 
-    def invader_collision_handler(self, bullet, invader, invaders, bullets):
+    def invader_collision_handler(self, bullet, invader):
         print("bullet hit invader:", invader)
 
         # remove bullet
-        bullets.remove(bullet)
+        self.player.bullets.remove(bullet)
         bullet.kill()
 
         # apply damage
         invader.health -= 1
 
         # remove invader if dead
-        if invader.health <= 0 and invader in invaders:
-            invaders.remove(invader)
+        if invader.health <= 0 and invader in self.invaders:
+            self.invaders.remove(invader)
             invader.kill()
 
-    def player_collision_handler(self, bullet, player, bullets):
+    def player_collision_handler(self, bullet, player):
         print("bullet hit player:", player)
 
         # remove bullets
-        bullets.remove(bullet)
+        if self.invaders:
+            self.invaders[0].bullets.remove(bullet)
+
+        # remove bullet from screen
         bullet.kill()
 
         # apply damage
@@ -127,27 +136,27 @@ class MainEvents:
     """
 
     def barrier_collision_listener(self):
-
-        bullets = self.player.bullets
-        barriers = self.barriers
+        # create one unioned list from player bullets and invaders bullets
+        if self.invaders:
+            bullets = self.player.bullets + self.invaders[0].bullets
+        else:
+            bullets = self.player.bullets
 
         for bullet in bullets:
             # listen for barrier collision and handle it
-            for barrier in barriers:
+            for barrier in self.barriers:
                 if bullet.rect.colliderect(barrier.rect):
-                    self.barrier_collision_handler(bullet, barrier, barriers, bullets)
+                    self.barrier_collision_handler(bullet, barrier)
                     break
 
     def invader_collision_listener(self):
-
         bullets = self.player.bullets
-        invaders = self.invaders
 
         for bullet in bullets:
             # listen for invader collision and handle it
-            for invader in invaders:
+            for invader in self.invaders:
                 if bullet.rect.colliderect(invader.rect):
-                    self.invader_collision_handler(bullet, invader, invaders, bullets)
+                    self.invader_collision_handler(bullet, invader)
                     break
 
     # this was rewritten to fix indexing error
@@ -158,7 +167,29 @@ class MainEvents:
         # nested loop which detects collision of invader bullets with the player
         for invader in self.invaders:
             bullets = invader.bullets
+
             for bullet in bullets:
                 if bullet.rect.colliderect(player.rect):
-                    self.player_collision_handler(bullet, player, bullets)
+                    self.player_collision_handler(bullet, player)
                     break
+
+    def bullet_offscreen_listener(self):
+        screen_bottom = pygame.display.get_surface().get_height()
+        # create one unioned list from player bullets and invaders bullets
+        if self.invaders:
+            bullets = self.player.bullets + self.invaders[0].bullets
+        else:
+            bullets = self.player.bullets
+
+        # loop over bullets and decide if it should be deleted or not
+        for bullet in bullets:
+            if bullet.owner == "Player" and bullet.rect.top < 0:
+                self.player.bullets.remove(bullet)
+                bullet.kill()
+                break
+            elif bullet.owner == "Invader" and bullet.rect.bottom > screen_bottom:
+                if self.invaders:
+                    self.invaders[0].bullets.remove(bullet)
+
+                bullet.kill()
+                break

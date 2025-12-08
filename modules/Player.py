@@ -36,6 +36,7 @@ class Player(Entity):
         """generate a bullet"""
         bullet = Bullet(
             10,
+            "Player",
             self.x + self.w / 2 - 16,
             self.y - self.h / 2,
             "./media/Anchor.png",
@@ -53,7 +54,6 @@ class Player(Entity):
         self.hidden_until = pygame.time.get_ticks() + self.respawn_cooldown
 
     # respawn function fakes visibility change and keyboard input blocking
-    # give user 500 ms of leeway here
     def respawn(self):
         if self.hidden_until and pygame.time.get_ticks() >= self.hidden_until:
             self.rect.topleft = self._stored_pos

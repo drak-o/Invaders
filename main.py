@@ -103,6 +103,13 @@ class Game:
 
             self.clock.tick(100)
 
+            # check status of bullet arrays
+            # print(
+            #     "main() self.invaders[0].bullets: ",
+            #     self.invaders[0].bullets,
+            # )
+            # print("main() self.player.bullets: ", self.player.bullets)
+
         # cleanup
         pygame.display.quit()
         pygame.quit()

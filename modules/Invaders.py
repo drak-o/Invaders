@@ -32,6 +32,7 @@ class Invader(Entity):
         # generate a bullet
         bullet = Bullet(
             -2.5,
+            "Invader",
             self.x + self.w / 2 - 24,
             self.y + self.h / 2 + 24,
             "./media/Bubble.png",

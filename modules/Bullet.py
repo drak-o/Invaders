@@ -12,6 +12,7 @@ class Bullet(Entity):
 
     Args:
         speed (int): the speed of the bullet.
+        owner (string): describes which entity owns the bullet.
         x (int): X position.
         y (int): Y position.
         entity_img (str): Path to the bullet image.
@@ -23,8 +24,9 @@ class Bullet(Entity):
         health (int, optional): Unused for bullets.
     """
 
-    def __init__(self, speed, *args, **kwargs):
+    def __init__(self, speed, owner, *args, **kwargs):
         self.speed = speed
+        self.owner = owner
         super().__init__(*args, **kwargs)
 
     def update(self):
@@ -32,7 +34,3 @@ class Bullet(Entity):
 
         # sync rect
         self.rect.y = self.y
-
-        # remove bullet when off-screen
-        if self.rect.top > pygame.display.get_surface().get_height():
-            self.kill()
