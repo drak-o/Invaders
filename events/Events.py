@@ -183,11 +183,14 @@ class MainEvents:
 
         # loop over bullets and decide if it should be deleted or not
         for bullet in bullets:
-            if bullet.owner == "Player" and bullet.rect.top < 0:
+            if bullet.owner == "Player" and bullet.rect.top < 0 - bullet.h:
                 self.player.bullets.remove(bullet)
                 bullet.kill()
                 break
-            elif bullet.owner == "Invader" and bullet.rect.bottom > screen_bottom:
+            elif (
+                bullet.owner == "Invader"
+                and bullet.rect.bottom > screen_bottom + bullet.h
+            ):
                 if self.invaders:
                     self.invaders[0].bullets.remove(bullet)
 

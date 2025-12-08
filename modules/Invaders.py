@@ -20,11 +20,12 @@ class Invader(Entity):
         layer (int): Render layer.
         score (int, optional): Score value.
         health (int, optional): Health value.
+        shoot_cooldown (int, optional): How long it takes to shoot again.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, shoot_cooldown=2000, **kwargs):
         super().__init__(*args, **kwargs)
-        self.shoot_cooldown = 2000
+        self.shoot_cooldown = shoot_cooldown
         self.last_shot = 0
         self.bullets = []
 

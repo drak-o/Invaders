@@ -28,15 +28,15 @@ class Game:
 
         # the main instance of the player class
         self.player = Player(
-            self.w / 2 - 37.5,
-            self.h - 100,
-            "./media/Boat.png",
-            150,
-            100,
-            self.group,
-            1,
-            None,
-            3,
+            x=self.w / 2 - 37.5,
+            y=self.h - 100,
+            entity_img="./media/Boat.png",
+            w=150,
+            h=100,
+            group=self.group,
+            layer=1,
+            score=None,
+            health=3,
         )
 
         # arrays to store entity types
@@ -47,29 +47,29 @@ class Game:
         # create 4 barriers and append them to the barriers list
         for i in range(4):
             barrier = Barrier(
-                25 + i * (75 + 50),  # start_x + i * (width + gap)
-                self.h - 200,
-                "./media/Barrier3.png",
-                75,
-                75,
-                self.group,
-                1,
-                None,
-                3,
+                x=25 + i * (75 + 50),  # start_x + i * (width + gap)
+                y=self.h - 200,
+                entity_img="./media/Barrier3.png",
+                w=75,
+                h=75,
+                group=self.group,
+                layer=1,
+                score=None,
+                health=3,
             )
             self.barriers.append(barrier)
 
         # create one invader and apped it to invaders list
         invader = Invader(
-            self.w / 2 - 96,
-            self.h / 2 - 192,
-            "./media/Barrier3.png",
-            192,
-            192,
-            self.group,
-            1,
-            None,
-            25,
+            x=self.w / 2 - 96,
+            y=self.h / 2 - 192,
+            entity_img="./media/Barrier3.png",
+            w=192,
+            h=192,
+            group=self.group,
+            layer=1,
+            score=None,
+            health=25,
         )
         self.invaders.append(invader)
 
@@ -109,6 +109,8 @@ class Game:
             #     self.invaders[0].bullets,
             # )
             # print("main() self.player.bullets: ", self.player.bullets)
+
+            # print(self.barriers)
 
         # cleanup
         pygame.display.quit()

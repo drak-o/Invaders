@@ -20,13 +20,15 @@ class Player(Entity):
         layer (int): Render layer.
         score (int, optional): Score value.
         health (int, optional): Health value.
+        respawn_cooldown (int, optional): How long it takes to respawn.
+        shoot_cooldown (int, optional): How often you can shoot.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, respawn_cooldown=600, shoot_cooldown=300, **kwargs):
         super().__init__(*args, **kwargs)
+        self.shoot_cooldown = shoot_cooldown
+        self.respawn_cooldown = respawn_cooldown
         self.velocity_x = 0
-        self.shoot_cooldown = 300
-        self.respawn_cooldown = 600
         self.hidden_until = 0
         self._stored_pos = (self.x, self.y)
         self.last_shot = 0
