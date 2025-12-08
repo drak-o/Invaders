@@ -63,7 +63,7 @@ class Game:
         invader = Invader(
             x=self.w / 2 - 96,
             y=self.h / 2 - 192,
-            entity_img="./media/Barrier3.png",
+            entity_img="./media/Medusa.png",
             w=192,
             h=192,
             group=self.group,
@@ -118,5 +118,6 @@ class Game:
         sys.exit()
 
 
-game = Game(500, 500, "./media/Background.jpg")
-game.main()
+if __name__ == "__main__":
+    game = Game(500, 500, "./media/Background.jpg")
+    game.main()

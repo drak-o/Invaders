@@ -73,5 +73,17 @@ foreach ($f in Get-ChildItem *.png) {
 }
 ```
 
-# must make tests
-automated testing must be implemented
+# Testing
+will be implemented through unittest
+
+- test Fixture = the setup required for the test.
+
+- test case = one unit test.
+
+- test suite = a bundle of tests.
+
+- runner = a class which runs and nicely outputs the results
+
+```bash
+python -m unittest tests/Tests.py
+````
