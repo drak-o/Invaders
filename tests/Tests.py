@@ -3,6 +3,7 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from main import Game
 from modules.Player import Player
+from modules.Barrier import Barrier
 from events.Events import MainEvents
 import unittest
 from unittest.mock import patch, MagicMock
@@ -14,11 +15,13 @@ class TestGame(unittest.TestCase):
         game = Game(500, 500, "./media/Background.jpg")
         self.assertTrue(game)
 
+
+# barrier test
 class Testbarriers(unittest.TestCase):
     def test_barrier_health(self):
-        game = Game(500, 500,"./media/Background.jpg")
+        game = Game(500, 500, "./media/Background.jpg")
         barrier = Barrier(
-            x=25 + i * (75 + 50),  # start_x + i * (width + gap)
+            x=500 / 2 - 75,
             y=self.h - 200,
             entity_img="./media/Barrier3.png",
             w=75,
@@ -27,13 +30,9 @@ class Testbarriers(unittest.TestCase):
             layer=1,
             score=None,
             health=3,
-        ) 
+        )
         barrier.health -= 1
-    self.assertEqual(barrier.health, 2)
-    #barrier test
-    
-
-    
+        self.assertEqual(barrier.health, 2)
 
 
 class TestPlayerMovement(unittest.TestCase):
@@ -74,7 +73,3 @@ class TestPlayerMovement(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
-
-
-
-
