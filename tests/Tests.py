@@ -14,6 +14,27 @@ class TestGame(unittest.TestCase):
         game = Game(500, 500, "./media/Background.jpg")
         self.assertTrue(game)
 
+class Testbarriers(unittest.TestCase):
+    def test_barrier_health(self):
+        game = Game(500, 500,"./media/Background.jpg")
+        barrier = Barrier(
+            x=25 + i * (75 + 50),  # start_x + i * (width + gap)
+            y=self.h - 200,
+            entity_img="./media/Barrier3.png",
+            w=75,
+            h=75,
+            group=self.group,
+            layer=1,
+            score=None,
+            health=3,
+        ) 
+        barrier.health -= 1
+    self.assertEqual(barrier.health, 2)
+    #barrier test
+    
+
+    
+
 
 class TestPlayerMovement(unittest.TestCase):
     @patch("pygame.key.get_pressed")
@@ -53,3 +74,7 @@ class TestPlayerMovement(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+
+
